@@ -66,6 +66,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       password,
     });
 
+    console.log(data.user?.id);
+
     if (error) {
       return { error };
     }
