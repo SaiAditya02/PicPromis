@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PicPromise — Website Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2440;
+    --ink-soft:#2A2620;
+    --parchment:#F6F1E7;
+    --parchment-deep:#EDE4D3;
+    --sindoor:#B33A3A;
+    --sindoor-deep:#8E2C2C;
+    --marigold:#D9A441;
+    --marigold-soft:#F1DCA8;
+    --sage:#3F7D58;
+    --white:#FFFEFB;
+    --grey:#6B6456;
+    --line: rgba(27,36,64,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--parchment);
+    color:var(--ink-soft);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Fraunces', serif;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 40px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--sindoor); font-weight:600; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--sindoor);}
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(246,241,231,0.92); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{display:flex; align-items:center; justify-content:space-between; padding:20px 40px; max-width:1180px; margin:0 auto;}
+  .logo{display:flex; align-items:center; gap:10px; font-family:'Fraunces', serif; font-weight:600; font-size:21px; color:var(--ink);}
+  .logo .seal-mini{width:26px; height:26px; border-radius:50%; background:var(--sindoor); position:relative; flex-shrink:0;}
+  .logo .seal-mini::after{content:"P"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:var(--marigold-soft); font-size:13px; font-weight:700;}
+  .nav-links{display:flex; gap:36px; font-size:14.5px; font-weight:500; color:var(--ink-soft);}
+  .nav-links a{position:relative; padding:4px 0;}
+  .nav-links a::after{content:""; position:absolute; left:0; bottom:0; width:0; height:1.5px; background:var(--sindoor); transition:width .25s ease;}
+  .nav-links a:hover::after{width:100%;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; font-weight:600; font-size:14.5px;
+    padding:11px 22px; border-radius:3px; cursor:pointer; border:1px solid transparent;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--sindoor); color:var(--white); box-shadow:0 4px 0 var(--sindoor-deep);}
+  .btn-primary:hover{box-shadow:0 6px 0 var(--sindoor-deep);}
+  .btn-ghost{border:1.5px solid var(--ink); color:var(--ink);}
+  .btn-ghost:hover{background:var(--ink); color:var(--parchment);}
+  .btn-light{background:var(--marigold); color:var(--ink); box-shadow:0 4px 0 #a9782a;}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:90px 0 70px; position:relative;}
+  .hero-grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:60px; align-items:center;}
+  .hero h1{font-size:53px; line-height:1.06; color:var(--ink); font-weight:600; margin:22px 0 20px; letter-spacing:-0.5px;}
+  .hero h1 em{font-style:italic; color:var(--sindoor); font-weight:500;}
+  .hero p.lede{font-size:17.5px; line-height:1.6; color:var(--grey); max-width:480px; margin-bottom:32px;}
+  .hero-ctas{display:flex; gap:14px; margin-bottom:44px;}
+  .hero-stats{display:flex; gap:38px; border-top:1px solid var(--line); padding-top:26px;}
+  .hero-stats .stat b{font-family:'Fraunces', serif; font-size:26px; color:var(--ink); display:block;}
+  .hero-stats .stat span{font-size:12.5px; color:var(--grey);}
+
+  /* wax seal / signature element */
+  .seal-wrap{position:relative; display:flex; align-items:center; justify-content:center; height:520px;}
+  .card-invite{
+    width:100%; height:100%; background:var(--white); border-radius:6px;
+    border:1px solid var(--line); position:relative; overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(27,36,64,0.25);
+    display:flex; align-items:center; justify-content:center;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:28px 28px; background-position:center;
+  }
+  .card-invite .thread{
+    position:absolute; top:0; left:50%; width:1px; height:100%;
+    background:repeating-linear-gradient(var(--sindoor) 0 6px, transparent 6px 12px);
+    opacity:0.35;
+  }
+  .seal{
+    width:170px; height:170px; border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, #c94848, var(--sindoor-deep) 70%);
+    display:flex; align-items:center; justify-content:center; flex-direction:column;
+    box-shadow:0 18px 40px -10px rgba(142,44,44,0.55), inset 0 -8px 16px rgba(0,0,0,0.2), inset 0 8px 16px rgba(255,255,255,0.15);
+    color:var(--marigold-soft); position:relative; z-index:2;
+    animation:stamp 1.1s cubic-bezier(.2,.9,.25,1.2) 1;
+  }
+  .seal .seal-inner{
+    width:138px; height:138px; border-radius:50%; border:1.5px dashed rgba(241,220,168,0.55);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+  }
+  .seal .seal-inner .p{font-family:'Fraunces', serif; font-size:34px; font-weight:700; line-height:1;}
+  .seal .seal-inner small{font-family:'IBM Plex Mono', monospace; font-size:9px; letter-spacing:0.12em; margin-top:6px; text-transform:uppercase;}
+  @keyframes stamp{
+    0%{transform:scale(2.2) rotate(-18deg); opacity:0;}
+    55%{transform:scale(0.94) rotate(4deg); opacity:1;}
+    75%{transform:scale(1.04) rotate(-2deg);}
+    100%{transform:scale(1) rotate(-8deg);}
+  }
+  .seal-caption{position:absolute; bottom:28px; font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--grey); text-align:center; letter-spacing:0.04em;}
+
+  /* ---------- SECTION SHELLS ---------- */
+  section{padding:100px 0;}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .section-head.center{margin-left:auto; margin-right:auto; text-align:center;}
+  .section-head h2{font-size:38px; font-weight:600; color:var(--ink); margin-top:16px; line-height:1.15;}
+  .section-head p{color:var(--grey); font-size:16px; margin-top:14px; line-height:1.6;}
+
+  /* ---------- PROBLEM : ticket stubs ---------- */
+  .stubs{display:grid; grid-template-columns:1fr 1fr; gap:28px;}
+  .stub{
+    background:var(--white); border:1px solid var(--line); border-radius:4px; padding:34px 34px 30px;
+    position:relative;
+  }
+  .stub::before{
+    content:""; position:absolute; top:-11px; left:36px; width:22px; height:22px; border-radius:50%;
+    background:var(--parchment); border:1px solid var(--line);
+  }
+  .stub-tag{
+    display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.1em; text-transform:uppercase; font-weight:600;
+    padding:6px 12px; border-radius:20px; margin-bottom:18px;
+  }
+  .stub.couple .stub-tag{background:#F3D9D9; color:var(--sindoor-deep);}
+  .stub.photog .stub-tag{background:var(--marigold-soft); color:#7A5C1E;}
+  .stub ul{list-style:none;}
+  .stub li{position:relative; padding-left:20px; margin-bottom:15px; font-size:15px; line-height:1.55; color:#3A3629;}
+  .stub li::before{content:"—"; position:absolute; left:0; color:var(--grey);}
+  .stub-perf{position:absolute; right:-1px; top:16px; bottom:16px; width:1px; background:repeating-linear-gradient(var(--line) 0 5px, transparent 5px 10px); display:none;}
+
+  /* ---------- FEATURES : contract clauses (ledger) ---------- */
+  .features-section{background:var(--ink); color:var(--parchment);}
+  .features-section .eyebrow{color:var(--marigold);}
+  .features-section .eyebrow::before{background:var(--marigold);}
+  .features-section .section-head h2{color:var(--white);}
+  .features-section .section-head p{color:#A9AAC0;}
+  .clauses{border-top:1px solid rgba(246,241,231,0.16);}
+  .clause{
+    display:grid; grid-template-columns:90px 1fr 1fr; gap:28px; padding:30px 0;
+    border-bottom:1px solid rgba(246,241,231,0.16); align-items:start;
+  }
+  .clause .num{font-family:'IBM Plex Mono', monospace; color:var(--marigold); font-size:15px; padding-top:4px;}
+  .clause h3{font-size:19px; font-weight:500; color:var(--white); font-family:'Fraunces', serif;}
+  .clause p{font-size:14.5px; color:#A9AAC0; line-height:1.6; margin-top:8px; max-width:360px;}
+  .clause .term{font-size:13px; text-transform:uppercase; letter-spacing:0.08em; color:#7C86A8; margin-bottom:6px; font-family:'IBM Plex Mono',monospace;}
+
+  /* ---------- TRUST SCORES: seals ---------- */
+  .scores-row{display:grid; grid-template-columns:repeat(3,1fr); gap:28px;}
+  .score-card{
+    background:var(--white); border:1px solid var(--line); border-radius:6px; padding:36px 30px;
+    text-align:center;
+  }
+  .mini-seal{
+    width:88px; height:88px; border-radius:50%; margin:0 auto 20px; display:flex; align-items:center; justify-content:center;
+    background:radial-gradient(circle at 32% 28%, #253362, var(--ink) 70%);
+    color:var(--marigold-soft); font-family:'Fraunces', serif; font-weight:700; font-size:20px;
+    border:2px dashed rgba(217,164,65,0.5);
+  }
+  .score-card h3{font-size:18px; color:var(--ink); margin-bottom:10px; font-weight:600; font-family:'Inter';}
+  .score-card p{font-size:14px; color:var(--grey); line-height:1.55;}
+
+  /* ---------- COMPARISON TABLE ---------- */
+  .comparison{background:var(--parchment-deep);}
+  .table-doc{background:var(--white); border:1px solid var(--line); border-radius:6px; overflow:hidden;}
+  .t-row{display:grid; grid-template-columns:2fr 1.1fr 1.4fr; align-items:center;}
+  .t-row.head{background:var(--ink); color:var(--white);}
+  .t-row.head div{font-family:'IBM Plex Mono', monospace; font-size:11.5px; text-transform:uppercase; letter-spacing:0.08em; padding:16px 24px;}
+  .t-row:not(.head){border-top:1px solid var(--line);}
+  .t-row:not(.head) div{padding:18px 24px; font-size:14.5px;}
+  .t-row .cap{color:var(--ink-soft); font-weight:500;}
+  .t-row .no{color:#A8574F;}
+  .t-row .yes{color:var(--sage); font-weight:600;}
+
+  /* ---------- PERSONAS ---------- */
+  .personas{display:grid; grid-template-columns:1fr 1fr; gap:28px;}
+  .persona-card{border:1px solid var(--line); border-radius:6px; padding:34px; background:var(--white);}
+  .persona-card .role{font-family:'IBM Plex Mono', monospace; font-size:11.5px; text-transform:uppercase; color:var(--sindoor); letter-spacing:0.08em; margin-bottom:14px;}
+  .persona-card h3{font-size:23px; margin-bottom:14px; color:var(--ink);}
+  .persona-card p{font-size:14.5px; color:var(--grey); line-height:1.65; margin-bottom:16px;}
+  .persona-card .wants{border-top:1px dashed var(--line); padding-top:16px; font-size:14px; color:var(--ink-soft);}
+  .persona-card .wants b{color:var(--ink);}
+
+  /* ---------- GTM / CITIES ---------- */
+  .cities{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .city-card{background:var(--white); border:1px solid var(--line); border-radius:6px; padding:28px; text-align:center;}
+  .city-card .idx{font-family:'IBM Plex Mono', monospace; color:var(--marigold); font-weight:600; font-size:12px; margin-bottom:10px;}
+  .city-card h3{font-family:'Fraunces', serif; font-size:22px; color:var(--ink);}
+
+  /* ---------- FINAL CTA : the signed promise ---------- */
+  .final-cta{background:var(--sindoor); color:var(--white); text-align:center; position:relative; overflow:hidden;}
+  .final-cta::before{
+    content:""; position:absolute; inset:0; opacity:0.08;
+    background-image:repeating-linear-gradient(45deg, var(--white) 0 2px, transparent 2px 22px);
+  }
+  .final-cta .inner{position:relative; z-index:2;}
+  .final-cta h2{font-size:38px; margin-bottom:16px;}
+  .final-cta p{max-width:480px; margin:0 auto 32px; color:rgba(255,255,255,0.85); font-size:16px;}
+  .final-cta .btn-primary{background:var(--white); color:var(--sindoor); box-shadow:0 4px 0 rgba(0,0,0,0.15);}
+  .sign-line{margin-top:46px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.3); font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.06em; color:rgba(255,255,255,0.7);}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--ink); color:#8A93B5; padding:56px 0 30px;}
+  .foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; padding-bottom:40px; border-bottom:1px solid rgba(246,241,231,0.14);}
+  .foot-grid h4{color:var(--white); font-weight:600; font-size:14px; margin-bottom:16px;}
+  .foot-grid .logo{color:var(--white); margin-bottom:14px;}
+  .foot-grid p{font-size:13.5px; line-height:1.6; max-width:260px;}
+  .foot-grid ul{list-style:none;}
+  .foot-grid li{margin-bottom:10px; font-size:13.5px;}
+  .foot-bottom{display:flex; justify-content:space-between; padding-top:24px; font-size:12.5px;}
+
+  @media (max-width:980px){
+    .hero-grid, .stubs, .personas, .cities, .scores-row{grid-template-columns:1fr;}
+    .hero h1{font-size:38px;}
+    .clause{grid-template-columns:1fr; gap:8px;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+    .t-row{grid-template-columns:1.3fr 1fr 1.3fr;}
+    nav .nav-links{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo"><span class="seal-mini"></span>PicPromise</div>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#trust">Trust &amp; Safety</a>
+      <a href="#personas">Who it's for</a>
+      <a href="#cities">Cities</a>
+    </div>
+    <a href="#" class="btn btn-primary">Get Started</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">A trusted wedding photography marketplace</div>
+      <h1>The promise isn't the portfolio.<br><em>It's what happens after you book.</em></h1>
+      <p class="lede">PicPromise AI-matches you to five verified photographers, holds your payment in escrow until each milestone is delivered, and backs the booking with a protection plan — for the one day that can't be redone.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-primary">Find My Photographer →</a>
+        <a href="#" class="btn btn-ghost">I'm a Photographer</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b>100+</b><span>Verified photographers</span></div>
+        <div class="stat"><b>500+</b><span>Couples matched</span></div>
+        <div class="stat"><b>95%+</b><span>Escrow success rate</span></div>
+        <div class="stat"><b>4.3/5</b><span>Couple satisfaction</span></div>
+      </div>
+    </div>
+    <div class="seal-wrap">
+      <div class="card-invite">
+        <div class="thread"></div>
+        <div class="seal">
+          <div class="seal-inner">
+            <span class="p">P</span>
+            <small>Verified &amp; Sealed</small>
+          </div>
+        </div>
+      </div>
+      <div class="seal-caption">Every booking closes with a verified seal —<br>not a five-star review.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">A fragmented, low-trust marketplace</div>
+      <h2>Two sides, waiting on the same missing piece.</h2>
+      <p>Directories list vendors. They don't verify quality, guarantee delivery, or protect either side financially — so both sides are left carrying the risk alone.</p>
+    </div>
+    <div class="stubs">
+      <div class="stub couple reveal">
+        <div class="stub-tag">The Couple</div>
+        <ul>
+          <li>No transparency into a photographer's real track record — reviews are easily gamed, portfolios curated or borrowed.</li>
+          <li>Fake or misleading portfolios, with no verification of authorship or actual delivery.</li>
+          <li>Pricing confusion — inconsistent packages make comparing vendors apples-to-apples nearly impossible.</li>
+          <li>No recourse if a photographer cancels last-minute, loses data, or delivers late.</li>
+        </ul>
+      </div>
+      <div class="stub photog reveal">
+        <div class="stub-tag">The Photographer</div>
+        <ul>
+          <li>High customer acquisition cost — heavy reliance on word-of-mouth or expensive ad spend.</li>
+          <li>No structured tools for contracts, milestone payments, or delivery workflow — managed manually over chat.</li>
+          <li>Payment risk — couples delaying or disputing final payment after delivery, with no neutral escrow mechanism.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features-section" id="how">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">The terms of the promise</div>
+      <h2>Seven clauses, not seven features.</h2>
+      <p>Each one exists because a directory listing, left alone, has failed a couple or a photographer before.</p>
+    </div>
+    <div class="clauses">
+      <div class="clause reveal">
+        <div class="num">01</div>
+        <div><div class="term">Matching</div><h3>AI Matching Engine</h3></div>
+        <p>A guided questionnaire on style, budget, location, date, and coverage hours returns a ranked shortlist of the top 5 photographers — not an endless scroll.</p>
+      </div>
+      <div class="clause reveal">
+        <div class="num">02</div>
+        <div><div class="term">Identity</div><h3>Verification Badge</h3></div>
+        <p>Identity, business registration, and portfolio-authorship checks — completed before a photographer is ever listed as "Verified."</p>
+      </div>
+      <div class="clause reveal">
+        <div class="num">03</div>
+        <div><div class="term">Scoring</div><h3>Composite Trust Scores</h3></div>
+        <p>Portfolio Quality, On-Time Delivery, and Customer Satisfaction — each computed from verified, platform-tracked data, not open-ended reviews.</p>
+      </div>
+      <div class="clause reveal">
+        <div class="num">04</div>
+        <div><div class="term">Payment</div><h3>Escrow Payments</h3></div>
+        <p>Couples pay into escrow at booking. Funds release on milestone completion: booking confirmed, event completed, gallery delivered.</p>
+      </div>
+      <div class="clause reveal">
+        <div class="num">05</div>
+        <div><div class="term">Timeline</div><h3>Delivery Workflow</h3></div>
+        <p>A shared timeline for shoot date, editing milestones, and final delivery — visible to both the couple and the photographer.</p>
+      </div>
+      <div class="clause reveal">
+        <div class="num">06</div>
+        <div><div class="term">Guarantee</div><h3>Protection Plan</h3></div>
+        <p>Coverage for cancellation, data loss, and delayed delivery, with a defined refund policy — the safety net for a day with no re-shoot.</p>
+      </div>
+      <div class="clause reveal">
+        <div class="num">07</div>
+        <div><div class="term">Pricing</div><h3>Standardized Packages</h3></div>
+        <p>Photographers map their offerings to common tiers — hours, deliverables, albums, second shooter — so couples compare like-for-like.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="trust">
+  <div class="wrap">
+    <div class="section-head center reveal" style="margin-left:auto;margin-right:auto;">
+      <div class="eyebrow" style="justify-content:center;">Verified, not self-reported</div>
+      <h2>Three scores, stamped from real data.</h2>
+      <p>Every score below is drawn from tracked platform activity — not from a review box anyone can fill in.</p>
+    </div>
+    <div class="scores-row">
+      <div class="score-card reveal">
+        <div class="mini-seal">92</div>
+        <h3>Portfolio Quality Score</h3>
+        <p>Authorship-verified work, judged on real delivered galleries — not a curated highlight reel.</p>
+      </div>
+      <div class="score-card reveal">
+        <div class="mini-seal">96</div>
+        <h3>On-Time Delivery Score</h3>
+        <p>Tracked directly against the shared delivery workflow timeline, milestone by milestone.</p>
+      </div>
+      <div class="score-card reveal">
+        <div class="mini-seal">4.3</div>
+        <h3>Customer Satisfaction Score</h3>
+        <p>Drawn from structured post-event surveys — closed, verified, and far harder to game.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="comparison">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Why not just use a directory</div>
+      <h2>Discovery was never the hard part.</h2>
+      <p>WeddingWire, The Knot, and WedMeGood monetize listings and reviews. None of them own the transaction, the guarantee, or the delivery workflow — they stop at discovery.</p>
+    </div>
+    <div class="table-doc reveal">
+      <div class="t-row head">
+        <div>Capability</div><div>Incumbents</div><div>PicPromise</div>
+      </div>
+      <div class="t-row"><div class="cap">Vendor discovery &amp; reviews</div><div class="yes">Yes</div><div class="yes">Yes</div></div>
+      <div class="t-row"><div class="cap">AI-matched shortlist</div><div class="no">No</div><div class="yes">Top 5 from a guided questionnaire</div></div>
+      <div class="t-row"><div class="cap">Verified quality scoring</div><div class="no">Self-reported only</div><div class="yes">Verification badge + 3 composite scores</div></div>
+      <div class="t-row"><div class="cap">Escrow / milestone payments</div><div class="no">No</div><div class="yes">Yes</div></div>
+      <div class="t-row"><div class="cap">Delivery workflow management</div><div class="no">No</div><div class="yes">Yes</div></div>
+      <div class="t-row"><div class="cap">Cancellation / delay protection</div><div class="no">No</div><div class="yes">Yes</div></div>
+      <div class="t-row"><div class="cap">Standardized, comparable packages</div><div class="no">No</div><div class="yes">Yes</div></div>
+      <div class="t-row"><div class="cap">Adjacent vendor ecosystem</div><div class="no">Listings only</div><div class="yes">Same trust &amp; payment layer</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="personas">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Built around two people</div>
+      <h2>Not personas — the two sides of the same booking.</h2>
+    </div>
+    <div class="personas">
+      <div class="persona-card reveal">
+        <div class="role">The Planning Couple</div>
+        <h3>24–32, planning 4–9 months out.</h3>
+        <p>Overwhelmed by choice, short on time, and anxious about being let down on the one day that can't be redone.</p>
+        <div class="wants"><b>Wants:</b> a short, guided decision process; proof of real quality; a safety net.</div>
+      </div>
+      <div class="persona-card reveal">
+        <div class="role">The Independent Photographer</div>
+        <h3>A small team of 1–5, wearing every hat.</h3>
+        <p>Juggling shooting, editing, client communication, and collections — all manually, all at once.</p>
+        <div class="wants"><b>Wants:</b> qualified leads, fewer payment disputes, less admin overhead.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cities" style="background:var(--parchment-deep);">
+  <div class="wrap">
+    <div class="section-head center reveal" style="margin-left:auto;margin-right:auto;">
+      <div class="eyebrow" style="justify-content:center;">Go-to-market</div>
+      <h2>Launching supply-first, in three cities.</h2>
+      <p>100 verified photographers onboarded before heavy demand-side marketing begins — so day-one matching has quality inventory behind it.</p>
+    </div>
+    <div class="cities">
+      <div class="city-card reveal"><div class="idx">CITY 01</div><h3>Hyderabad</h3></div>
+      <div class="city-card reveal"><div class="idx">CITY 02</div><h3>Bengaluru</h3></div>
+      <div class="city-card reveal"><div class="idx">CITY 03</div><h3>Chennai</h3></div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap inner reveal">
+    <h2>Book with a promise, not a guess.</h2>
+    <p>Answer a short questionnaire and get your top 5 verified photographers — escrow-protected, from booking to delivery.</p>
+    <a href="#" class="btn btn-primary">Find My Photographer →</a>
+    <div class="sign-line">SEALED · ESCROW-PROTECTED · DELIVERY-GUARANTEED</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:19px;">
+          <span class="seal-mini"></span>PicPromise
+        </div>
+        <p>A trust layer for wedding photography bookings — verified photographers, escrow-protected payments, and a delivery guarantee.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul><li>How it works</li><li>Trust &amp; Safety</li><li>Protection Plan</li><li>Pricing</li></ul>
+      </div>
+      <div>
+        <h4>For Photographers</h4>
+        <ul><li>Get verified</li><li>Milestone payouts</li><li>Become a partner</li></ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul><li>About</li><li>Launch cities</li><li>Contact</li></ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 PicPromise. All rights reserved.</div>
+      <div>Hyderabad · Bengaluru · Chennai</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
