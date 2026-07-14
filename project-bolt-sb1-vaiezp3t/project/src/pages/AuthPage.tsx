@@ -76,8 +76,8 @@ export default function AuthPage() {
                   type="button"
                   onClick={() => setRole('couple')}
                   className={`p-4 rounded-xl border-2 transition-all ${role === 'couple'
-                      ? 'border-sindoor bg-sindoor/5'
-                      : 'border-ink/10 hover:border-ink/30'
+                    ? 'border-sindoor bg-sindoor/5'
+                    : 'border-ink/10 hover:border-ink/30'
                     }`}
                 >
                   <Sparkles size={24} className={`mx-auto mb-2 ${role === 'couple' ? 'text-sindoor' : 'text-brand-grey'}`} />
@@ -90,8 +90,8 @@ export default function AuthPage() {
                   type="button"
                   onClick={() => setRole('photographer')}
                   className={`p-4 rounded-xl border-2 transition-all ${role === 'photographer'
-                      ? 'border-sindoor bg-sindoor/5'
-                      : 'border-ink/10 hover:border-ink/30'
+                    ? 'border-sindoor bg-sindoor/5'
+                    : 'border-ink/10 hover:border-ink/30'
                     }`}
                 >
                   <Camera size={24} className={`mx-auto mb-2 ${role === 'photographer' ? 'text-sindoor' : 'text-brand-grey'}`} />
