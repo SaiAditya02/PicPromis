@@ -79,8 +79,8 @@ function Navigation() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-          ? 'bg-parchment/80 backdrop-blur-lg shadow-lg border-b border-ink/10'
-          : 'bg-transparent'
+        ? 'bg-parchment/80 backdrop-blur-lg shadow-lg border-b border-ink/10'
+        : 'bg-transparent'
         }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -306,8 +306,8 @@ function AIMatchingModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                         key={city}
                         onClick={() => handleSelect('city', city)}
                         className={`p-4 rounded-xl border-2 transition-all ${selections.city === city
-                            ? 'border-sindoor bg-sindoor/5 shadow-lg'
-                            : 'border-ink/10 hover:border-ink/30 hover:bg-ink/5'
+                          ? 'border-sindoor bg-sindoor/5 shadow-lg'
+                          : 'border-ink/10 hover:border-ink/30 hover:bg-ink/5'
                           }`}
                       >
                         <MapPin size={24} className={`mx-auto mb-2 ${selections.city === city ? 'text-sindoor' : 'text-brand-grey'}`} />
@@ -330,8 +330,8 @@ function AIMatchingModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                         key={service.id}
                         onClick={() => handleServiceToggle(service.id)}
                         className={`p-5 rounded-xl border-2 transition-all text-left relative ${selections.services.includes(service.id)
-                            ? 'border-sindoor bg-sindoor/5 shadow-lg'
-                            : 'border-ink/10 hover:border-ink/30 hover:bg-ink/5'
+                          ? 'border-sindoor bg-sindoor/5 shadow-lg'
+                          : 'border-ink/10 hover:border-ink/30 hover:bg-ink/5'
                           }`}
                       >
                         {selections.services.includes(service.id) && (
@@ -359,8 +359,8 @@ function AIMatchingModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                         key={style}
                         onClick={() => handleStyleToggle(style)}
                         className={`p-5 rounded-xl border-2 transition-all text-left relative ${selections.styles.includes(style)
-                            ? 'border-sindoor bg-sindoor/5 shadow-lg'
-                            : 'border-ink/10 hover:border-ink/30 hover:bg-ink/5'
+                          ? 'border-sindoor bg-sindoor/5 shadow-lg'
+                          : 'border-ink/10 hover:border-ink/30 hover:bg-ink/5'
                           }`}
                       >
                         {selections.styles.includes(style) && (
@@ -388,8 +388,8 @@ function AIMatchingModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                         key={budget}
                         onClick={() => handleSelect('budget', budget)}
                         className={`w-full p-4 rounded-xl border-2 transition-all flex items-center gap-4 ${selections.budget === budget
-                            ? 'border-sindoor bg-sindoor/5 shadow-lg'
-                            : 'border-ink/10 hover:border-ink/30 hover:bg-ink/5'
+                          ? 'border-sindoor bg-sindoor/5 shadow-lg'
+                          : 'border-ink/10 hover:border-ink/30 hover:bg-ink/5'
                           }`}
                       >
                         <DollarSign size={24} className={selections.budget === budget ? 'text-sindoor' : 'text-brand-grey'} />
@@ -416,8 +416,8 @@ function AIMatchingModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                   onClick={handleNext}
                   disabled={!canProceed()}
                   className={`flex-1 py-3 font-semibold rounded-lg transition-all flex items-center justify-center gap-2 ${canProceed()
-                      ? 'bg-sindoor text-brand-white hover:bg-sindoor-deep'
-                      : 'bg-ink/10 text-ink/40 cursor-not-allowed'
+                    ? 'bg-sindoor text-brand-white hover:bg-sindoor-deep'
+                    : 'bg-ink/10 text-ink/40 cursor-not-allowed'
                     }`}
                 >
                   {step === 4 ? 'Find Matches' : 'Continue'}
@@ -587,8 +587,8 @@ function ProblemSection() {
           <button
             onClick={() => setActiveTab('couple')}
             className={`px-6 py-3 rounded-xl font-medium transition-all ${activeTab === 'couple'
-                ? 'bg-sindoor/10 text-sindoor border-2 border-sindoor'
-                : 'bg-ink/5 text-ink-soft border-2 border-transparent hover:bg-ink/10'
+              ? 'bg-sindoor/10 text-sindoor border-2 border-sindoor'
+              : 'bg-ink/5 text-ink-soft border-2 border-transparent hover:bg-ink/10'
               }`}
           >
             <Users size={18} className="inline mr-2" />
@@ -597,8 +597,8 @@ function ProblemSection() {
           <button
             onClick={() => setActiveTab('photographer')}
             className={`px-6 py-3 rounded-xl font-medium transition-all ${activeTab === 'photographer'
-                ? 'bg-marigold/20 text-amber-900 border-2 border-marigold'
-                : 'bg-ink/5 text-ink-soft border-2 border-transparent hover:bg-ink/10'
+              ? 'bg-marigold/20 text-amber-900 border-2 border-marigold'
+              : 'bg-ink/5 text-ink-soft border-2 border-transparent hover:bg-ink/10'
               }`}
           >
             <Camera size={18} className="inline mr-2" />
@@ -614,7 +614,7 @@ function ProblemSection() {
           <div className="p-8 lg:p-10">
             <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono font-semibold tracking-widest uppercase mb-6 ${activeTab === 'couple' ? 'bg-red-100 text-sindoor-deep' : 'bg-amber-100 text-amber-900'
               }`}>
-              {activeTab === 'couple' ? 'The Couple' : 'The Photographer'}
+              {activeTab === 'couple' ? 'Customers' : 'The Photographer'}
             </div>
 
             <div className="space-y-4">
@@ -644,7 +644,7 @@ function FeaturesSection() {
     { num: '02', term: 'Identity', title: 'Verification Badge', desc: 'Identity, business registration, and portfolio-authorship checks — completed before a photographer is ever listed as "Verified."' },
     { num: '03', term: 'Scoring', title: 'Composite Trust Scores', desc: 'Portfolio Quality, On-Time Delivery, and Customer Satisfaction — each computed from verified, platform-tracked data, not open-ended reviews.' },
     { num: '04', term: 'Payment', title: 'Escrow Payments', desc: 'Couples pay into escrow at booking. Funds release on milestone completion: booking confirmed, event completed, gallery delivered.' },
-    { num: '05', term: 'Timeline', title: 'Delivery Workflow', desc: 'A shared timeline for shoot date, editing milestones, and final delivery — visible to both the couple and the photographer.' },
+    { num: '05', term: 'Timeline', title: 'Delivery Workflow', desc: 'A shared timeline for shoot date, editing milestones, and final delivery — visible to both Customers and the photographer.' },
     { num: '06', term: 'Guarantee', title: 'Protection Plan', desc: 'Coverage for cancellation, data loss, and delayed delivery, with a defined refund policy — the safety net for a day with no re-shoot.' },
     { num: '07', term: 'Pricing', title: 'Standardized Packages', desc: 'Photographers map their offerings to common tiers — hours, deliverables, albums, second shooter — so couples compare like-for-like.' },
   ];
@@ -790,8 +790,8 @@ function PortfolioSection() {
               key={filter}
               onClick={() => setActiveFilter(filter)}
               className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all ${activeFilter === filter
-                  ? 'bg-sindoor text-white'
-                  : 'bg-brand-white text-ink-soft hover:bg-ink/10'
+                ? 'bg-sindoor text-white'
+                : 'bg-brand-white text-ink-soft hover:bg-ink/10'
                 }`}
             >
               {filter === 'all' ? 'All Styles' : filter}
@@ -1051,7 +1051,7 @@ function FAQSection() {
     },
     {
       question: 'What happens if my photos are delayed?',
-      answer: 'Our delivery workflow tracks timelines for both the couple and photographer. If a photographer misses agreed deadlines, our Protection Plan kicks in with defined refund policies. We monitor delivery milestones to ensure accountability.',
+      answer: 'Our delivery workflow tracks timelines for both Customers and photographer. If a photographer misses agreed deadlines, our Protection Plan kicks in with defined refund policies. We monitor delivery milestones to ensure accountability.',
     },
     {
       question: 'Can I compare photographers easily?',
