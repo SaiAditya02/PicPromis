@@ -53,17 +53,15 @@ export default function AuthPage() {
           <div className="flex bg-brand-white rounded-xl p-1 shadow-sm border border-ink/10 mb-8">
             <button
               onClick={() => setIsLogin(true)}
-              className={`flex-1 py-3 rounded-lg font-medium transition-all ${
-                isLogin ? 'bg-sindoor text-white shadow-md' : 'text-ink-soft hover:text-ink'
-              }`}
+              className={`flex-1 py-3 rounded-lg font-medium transition-all ${isLogin ? 'bg-sindoor text-white shadow-md' : 'text-ink-soft hover:text-ink'
+                }`}
             >
               Sign In
             </button>
             <button
               onClick={() => setIsLogin(false)}
-              className={`flex-1 py-3 rounded-lg font-medium transition-all ${
-                !isLogin ? 'bg-sindoor text-white shadow-md' : 'text-ink-soft hover:text-ink'
-              }`}
+              className={`flex-1 py-3 rounded-lg font-medium transition-all ${!isLogin ? 'bg-sindoor text-white shadow-md' : 'text-ink-soft hover:text-ink'
+                }`}
             >
               Sign Up
             </button>
@@ -77,26 +75,24 @@ export default function AuthPage() {
                 <button
                   type="button"
                   onClick={() => setRole('couple')}
-                  className={`p-4 rounded-xl border-2 transition-all ${
-                    role === 'couple'
+                  className={`p-4 rounded-xl border-2 transition-all ${role === 'couple'
                       ? 'border-sindoor bg-sindoor/5'
                       : 'border-ink/10 hover:border-ink/30'
-                  }`}
+                    }`}
                 >
                   <Sparkles size={24} className={`mx-auto mb-2 ${role === 'couple' ? 'text-sindoor' : 'text-brand-grey'}`} />
                   <span className={`font-medium ${role === 'couple' ? 'text-ink' : 'text-ink-soft'}`}>
-                    Celebration Host
+                    Customer
                   </span>
                   <span className="block text-xs text-brand-grey mt-1">Planning your big day</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setRole('photographer')}
-                  className={`p-4 rounded-xl border-2 transition-all ${
-                    role === 'photographer'
+                  className={`p-4 rounded-xl border-2 transition-all ${role === 'photographer'
                       ? 'border-sindoor bg-sindoor/5'
                       : 'border-ink/10 hover:border-ink/30'
-                  }`}
+                    }`}
                 >
                   <Camera size={24} className={`mx-auto mb-2 ${role === 'photographer' ? 'text-sindoor' : 'text-brand-grey'}`} />
                   <span className={`font-medium ${role === 'photographer' ? 'text-ink' : 'text-ink-soft'}`}>

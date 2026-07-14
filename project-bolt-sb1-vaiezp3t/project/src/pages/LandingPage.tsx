@@ -78,11 +78,10 @@ function Navigation() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
           ? 'bg-parchment/80 backdrop-blur-lg shadow-lg border-b border-ink/10'
           : 'bg-transparent'
-      }`}
+        }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
@@ -130,9 +129,8 @@ function Navigation() {
 
         {/* Mobile Menu */}
         <div
-          className={`lg:hidden overflow-hidden transition-all duration-300 ${
-            isMobileMenuOpen ? 'max-h-96 pb-6' : 'max-h-0'
-          }`}
+          className={`lg:hidden overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? 'max-h-96 pb-6' : 'max-h-0'
+            }`}
         >
           <div className="flex flex-col gap-4 pt-4 border-t border-ink/10">
             {navLinks.map((link) => (
@@ -259,9 +257,8 @@ function AIMatchingModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
             {[1, 2, 3, 4].map((s) => (
               <div
                 key={s}
-                className={`h-1.5 flex-1 rounded-full transition-all ${
-                  s <= step ? 'bg-marigold' : 'bg-white/20'
-                }`}
+                className={`h-1.5 flex-1 rounded-full transition-all ${s <= step ? 'bg-marigold' : 'bg-white/20'
+                  }`}
               />
             ))}
           </div>
@@ -308,11 +305,10 @@ function AIMatchingModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                       <button
                         key={city}
                         onClick={() => handleSelect('city', city)}
-                        className={`p-4 rounded-xl border-2 transition-all ${
-                          selections.city === city
+                        className={`p-4 rounded-xl border-2 transition-all ${selections.city === city
                             ? 'border-sindoor bg-sindoor/5 shadow-lg'
                             : 'border-ink/10 hover:border-ink/30 hover:bg-ink/5'
-                        }`}
+                          }`}
                       >
                         <MapPin size={24} className={`mx-auto mb-2 ${selections.city === city ? 'text-sindoor' : 'text-brand-grey'}`} />
                         <span className={`font-medium ${selections.city === city ? 'text-ink' : 'text-ink-soft'}`}>
@@ -333,11 +329,10 @@ function AIMatchingModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                       <button
                         key={service.id}
                         onClick={() => handleServiceToggle(service.id)}
-                        className={`p-5 rounded-xl border-2 transition-all text-left relative ${
-                          selections.services.includes(service.id)
+                        className={`p-5 rounded-xl border-2 transition-all text-left relative ${selections.services.includes(service.id)
                             ? 'border-sindoor bg-sindoor/5 shadow-lg'
                             : 'border-ink/10 hover:border-ink/30 hover:bg-ink/5'
-                        }`}
+                          }`}
                       >
                         {selections.services.includes(service.id) && (
                           <div className="absolute top-2 right-2 w-5 h-5 rounded-full bg-sindoor flex items-center justify-center">
@@ -363,11 +358,10 @@ function AIMatchingModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                       <button
                         key={style}
                         onClick={() => handleStyleToggle(style)}
-                        className={`p-5 rounded-xl border-2 transition-all text-left relative ${
-                          selections.styles.includes(style)
+                        className={`p-5 rounded-xl border-2 transition-all text-left relative ${selections.styles.includes(style)
                             ? 'border-sindoor bg-sindoor/5 shadow-lg'
                             : 'border-ink/10 hover:border-ink/30 hover:bg-ink/5'
-                        }`}
+                          }`}
                       >
                         {selections.styles.includes(style) && (
                           <div className="absolute top-2 right-2 w-5 h-5 rounded-full bg-sindoor flex items-center justify-center">
@@ -393,11 +387,10 @@ function AIMatchingModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                       <button
                         key={budget}
                         onClick={() => handleSelect('budget', budget)}
-                        className={`w-full p-4 rounded-xl border-2 transition-all flex items-center gap-4 ${
-                          selections.budget === budget
+                        className={`w-full p-4 rounded-xl border-2 transition-all flex items-center gap-4 ${selections.budget === budget
                             ? 'border-sindoor bg-sindoor/5 shadow-lg'
                             : 'border-ink/10 hover:border-ink/30 hover:bg-ink/5'
-                        }`}
+                          }`}
                       >
                         <DollarSign size={24} className={selections.budget === budget ? 'text-sindoor' : 'text-brand-grey'} />
                         <span className={`font-medium ${selections.budget === budget ? 'text-ink' : 'text-ink-soft'}`}>
@@ -422,11 +415,10 @@ function AIMatchingModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                 <button
                   onClick={handleNext}
                   disabled={!canProceed()}
-                  className={`flex-1 py-3 font-semibold rounded-lg transition-all flex items-center justify-center gap-2 ${
-                    canProceed()
+                  className={`flex-1 py-3 font-semibold rounded-lg transition-all flex items-center justify-center gap-2 ${canProceed()
                       ? 'bg-sindoor text-brand-white hover:bg-sindoor-deep'
                       : 'bg-ink/10 text-ink/40 cursor-not-allowed'
-                  }`}
+                    }`}
                 >
                   {step === 4 ? 'Find Matches' : 'Continue'}
                   <ChevronRight size={18} />
@@ -594,22 +586,20 @@ function ProblemSection() {
         <div className={`flex gap-2 mb-8 transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           <button
             onClick={() => setActiveTab('couple')}
-            className={`px-6 py-3 rounded-xl font-medium transition-all ${
-              activeTab === 'couple'
+            className={`px-6 py-3 rounded-xl font-medium transition-all ${activeTab === 'couple'
                 ? 'bg-sindoor/10 text-sindoor border-2 border-sindoor'
                 : 'bg-ink/5 text-ink-soft border-2 border-transparent hover:bg-ink/10'
-            }`}
+              }`}
           >
             <Users size={18} className="inline mr-2" />
-            For Couples
+            Customer
           </button>
           <button
             onClick={() => setActiveTab('photographer')}
-            className={`px-6 py-3 rounded-xl font-medium transition-all ${
-              activeTab === 'photographer'
+            className={`px-6 py-3 rounded-xl font-medium transition-all ${activeTab === 'photographer'
                 ? 'bg-marigold/20 text-amber-900 border-2 border-marigold'
                 : 'bg-ink/5 text-ink-soft border-2 border-transparent hover:bg-ink/10'
-            }`}
+              }`}
           >
             <Camera size={18} className="inline mr-2" />
             For Photographers
@@ -622,9 +612,8 @@ function ProblemSection() {
           <div className="absolute top-4 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-parchment border border-ink/10" />
 
           <div className="p-8 lg:p-10">
-            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono font-semibold tracking-widest uppercase mb-6 ${
-              activeTab === 'couple' ? 'bg-red-100 text-sindoor-deep' : 'bg-amber-100 text-amber-900'
-            }`}>
+            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono font-semibold tracking-widest uppercase mb-6 ${activeTab === 'couple' ? 'bg-red-100 text-sindoor-deep' : 'bg-amber-100 text-amber-900'
+              }`}>
               {activeTab === 'couple' ? 'The Couple' : 'The Photographer'}
             </div>
 
@@ -683,9 +672,8 @@ function FeaturesSection() {
           {clauses.map((clause, index) => (
             <div
               key={clause.num}
-              className={`grid lg:grid-cols-[90px_1fr_1fr] gap-4 lg:gap-8 py-8 border-b border-parchment/10 transition-all duration-700 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-              }`}
+              className={`grid lg:grid-cols-[90px_1fr_1fr] gap-4 lg:gap-8 py-8 border-b border-parchment/10 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
               <div className="font-mono text-marigold text-lg font-medium">{clause.num}</div>
@@ -735,9 +723,8 @@ function TrustScoresSection() {
             return (
               <div
                 key={item.title}
-                className={`group bg-brand-white rounded-2xl border border-ink/10 p-8 text-center hover:shadow-xl hover:-translate-y-2 transition-all duration-500 ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-                }`}
+                className={`group bg-brand-white rounded-2xl border border-ink/10 p-8 text-center hover:shadow-xl hover:-translate-y-2 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                  }`}
                 style={{ transitionDelay: `${index * 150}ms` }}
               >
                 <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-ink to-ink/80 flex items-center justify-center border-2 border-dashed border-marigold/30 group-hover:scale-110 transition-transform duration-500">
@@ -802,11 +789,10 @@ function PortfolioSection() {
             <button
               key={filter}
               onClick={() => setActiveFilter(filter)}
-              className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all ${
-                activeFilter === filter
+              className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all ${activeFilter === filter
                   ? 'bg-sindoor text-white'
                   : 'bg-brand-white text-ink-soft hover:bg-ink/10'
-              }`}
+                }`}
             >
               {filter === 'all' ? 'All Styles' : filter}
             </button>
@@ -818,9 +804,8 @@ function PortfolioSection() {
           {filtered.map((photographer, index) => (
             <div
               key={photographer.name}
-              className={`group bg-brand-white rounded-2xl overflow-hidden border border-ink/10 hover:shadow-2xl transition-all duration-500 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-              }`}
+              className={`group bg-brand-white rounded-2xl overflow-hidden border border-ink/10 hover:shadow-2xl transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                }`}
               style={{ transitionDelay: `${200 + index * 100}ms` }}
             >
               <div className="relative aspect-[4/5] overflow-hidden">
@@ -964,14 +949,12 @@ function PersonasSection() {
             return (
               <div
                 key={persona.role}
-                className={`bg-brand-white rounded-2xl border border-ink/10 p-8 hover:shadow-xl transition-all duration-500 ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-                }`}
+                className={`bg-brand-white rounded-2xl border border-ink/10 p-8 hover:shadow-xl transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                  }`}
                 style={{ transitionDelay: `${index * 150}ms` }}
               >
-                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-semibold tracking-widest uppercase mb-4 ${
-                  persona.color === 'sindoor' ? 'bg-red-100 text-sindoor-deep' : 'bg-amber-100 text-amber-900'
-                }`}>
+                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-semibold tracking-widest uppercase mb-4 ${persona.color === 'sindoor' ? 'bg-red-100 text-sindoor-deep' : 'bg-amber-100 text-amber-900'
+                  }`}>
                   <Icon size={14} />
                   {persona.role}
                 </div>
@@ -1022,9 +1005,8 @@ function CitiesSection() {
           {cities.map((city, index) => (
             <div
               key={city.name}
-              className={`group bg-brand-white rounded-2xl overflow-hidden border border-ink/10 hover:shadow-2xl transition-all duration-500 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-              }`}
+              className={`group bg-brand-white rounded-2xl overflow-hidden border border-ink/10 hover:shadow-2xl transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
               <div className="relative aspect-video overflow-hidden">
@@ -1100,9 +1082,8 @@ function FAQSection() {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className={`bg-brand-white rounded-xl border border-ink/10 overflow-hidden transition-all duration-500 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-              }`}
+              className={`bg-brand-white rounded-xl border border-ink/10 overflow-hidden transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                }`}
               style={{ transitionDelay: `${index * 50}ms` }}
             >
               <button
@@ -1112,15 +1093,13 @@ function FAQSection() {
                 <span className="font-medium text-ink">{faq.question}</span>
                 <ChevronDown
                   size={20}
-                  className={`text-brand-grey flex-shrink-0 transition-transform duration-300 ${
-                    openIndex === index ? 'rotate-180' : ''
-                  }`}
+                  className={`text-brand-grey flex-shrink-0 transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''
+                    }`}
                 />
               </button>
               <div
-                className={`overflow-hidden transition-all duration-300 ${
-                  openIndex === index ? 'max-h-48' : 'max-h-0'
-                }`}
+                className={`overflow-hidden transition-all duration-300 ${openIndex === index ? 'max-h-48' : 'max-h-0'
+                  }`}
               >
                 <p className="px-6 pb-6 text-brand-grey leading-relaxed">{faq.answer}</p>
               </div>
