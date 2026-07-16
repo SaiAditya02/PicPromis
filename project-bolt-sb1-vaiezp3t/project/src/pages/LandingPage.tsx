@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../lib/auth';
 import { Menu, X, ChevronRight, ChevronDown, Check, Star, Clock, Camera, Heart, Sparkles, MapPin, DollarSign, Users, Award, ArrowRight } from 'lucide-react';
 
 // Custom hook for scroll-triggered animations
@@ -109,9 +110,6 @@ function Navigation() {
 
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link to="/auth" className="px-5 py-2.5 text-ink font-semibold text-sm border-2 border-ink rounded hover:bg-ink hover:text-parchment transition-all">
-              I&apos;m a Photographer
-            </Link>
             <Link to="/auth" className="px-5 py-2.5 bg-sindoor text-brand-white font-semibold text-sm rounded shadow-lg shadow-sindoor/30 hover:shadow-xl hover:shadow-sindoor/40 hover:-translate-y-0.5 transition-all">
               Get Started
             </Link>
@@ -144,9 +142,6 @@ function Navigation() {
               </a>
             ))}
             <div className="flex flex-col gap-3 pt-4">
-              <Link to="/auth" className="w-full px-5 py-3 text-ink font-semibold border-2 border-ink rounded text-center">
-                I&apos;m a Photographer
-              </Link>
               <Link to="/auth" className="w-full px-5 py-3 bg-sindoor text-brand-white font-semibold rounded text-center">
                 Get Started
               </Link>
@@ -438,7 +433,7 @@ function HeroSection({ onOpenModal }: { onOpenModal: () => void }) {
     { value: 100, suffix: '+', label: 'Verified photographers' },
     { value: 500, suffix: '+', label: 'Couples matched' },
     { value: 95, suffix: '%+', label: 'Escrow success rate' },
-    { value: 4.3, suffix: '/5', label: 'Satisfaction score', isDecimal: true },
+    { value: 4, suffix: '/5', label: 'Satisfaction score' },
   ];
 
   return (
@@ -475,9 +470,6 @@ function HeroSection({ onOpenModal }: { onOpenModal: () => void }) {
                 Find My Photographer
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>
-              <Link to="/auth" className="px-8 py-4 text-ink font-semibold border-2 border-ink rounded-lg hover:bg-ink hover:text-parchment transition-all text-center">
-                I&apos;m a Photographer
-              </Link>
             </div>
 
             {/* Stats */}
@@ -696,7 +688,7 @@ function TrustScoresSection() {
   const scores = [
     { score: 92, title: 'Portfolio Quality Score', desc: 'Authorship-verified work, judged on real delivered galleries — not a curated highlight reel.', icon: Camera },
     { score: 96, title: 'On-Time Delivery Score', desc: 'Tracked directly against the shared delivery workflow timeline, milestone by milestone.', icon: Clock },
-    { score: 4.3, title: 'Customer Satisfaction Score', desc: 'Drawn from structured post-event surveys — closed, verified, and far harder to game.', icon: Star, isDecimal: true },
+    { score: 4, title: 'Customer Satisfaction Score', desc: 'Drawn from structured post-event surveys — closed, verified, and far harder to game.', icon: Star },
   ];
 
   return (
@@ -1194,12 +1186,22 @@ function Footer() {
 // Main Landing Page
 export default function LandingPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleFindPhotographer = () => {
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
+    setIsModalOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-parchment font-sans antialiased">
       <Navigation />
       <main>
-        <HeroSection onOpenModal={() => setIsModalOpen(true)} />
+        <HeroSection onOpenModal={handleFindPhotographer} />
         <ProblemSection />
         <FeaturesSection />
         <TrustScoresSection />
@@ -1208,7 +1210,7 @@ export default function LandingPage() {
         <PersonasSection />
         <CitiesSection />
         <FAQSection />
-        <CTASection onOpenModal={() => setIsModalOpen(true)} />
+        <CTASection onOpenModal={handleFindPhotographer} />
       </main>
       <Footer />
       <AIMatchingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

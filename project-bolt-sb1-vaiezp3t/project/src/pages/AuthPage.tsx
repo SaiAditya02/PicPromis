@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
-import { ArrowRight, Mail, Lock, User, Camera, Heart, Sparkles } from 'lucide-react';
+import { ArrowRight, Mail, Lock, User, Camera, Heart, Sparkles, Shield, Eye, EyeOff } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
-  const [role, setRole] = useState<'couple' | 'photographer'>('couple');
+  const [role, setRole] = useState<'couple' | 'photographer' | 'admin'>('couple');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
 
@@ -21,8 +23,29 @@ export default function AuthPage() {
 
     try {
       if (isLogin) {
-        const { error } = await signIn(email, password);
-        if (error) throw error;
+        const { error: signInError } = await signIn(email, password);
+        if (signInError) throw signInError;
+
+        // Verify the user's role from profiles
+        const { data: { user: currentUser } } = await supabase.auth.getUser();
+        if (currentUser) {
+          const { data: profileData, error: profileError } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', currentUser.id)
+            .maybeSingle();
+
+          if (profileError) {
+            await supabase.auth.signOut();
+            throw profileError;
+          }
+
+          if (!profileData || profileData.role !== role) {
+            await supabase.auth.signOut();
+            const roleName = role === 'couple' ? 'Customer' : role === 'photographer' ? 'Photographer' : 'Admin';
+            throw new Error(`Your account does not have permission to log in as a ${roleName}.`);
+          }
+        }
         navigate('/dashboard');
       } else {
         const { error } = await signUp(email, password, fullName, role);
@@ -67,42 +90,42 @@ export default function AuthPage() {
             </button>
           </div>
 
-          {/* Role Selector (for signup) */}
-          {!isLogin && (
-            <div className="mb-8">
-              <label className="block text-sm font-medium text-ink-soft mb-3">I am a...</label>
-              <div className="grid grid-cols-2 gap-4">
-                <button
-                  type="button"
-                  onClick={() => setRole('couple')}
-                  className={`p-4 rounded-xl border-2 transition-all ${role === 'couple'
-                    ? 'border-sindoor bg-sindoor/5'
-                    : 'border-ink/10 hover:border-ink/30'
-                    }`}
-                >
-                  <Sparkles size={24} className={`mx-auto mb-2 ${role === 'couple' ? 'text-sindoor' : 'text-brand-grey'}`} />
-                  <span className={`font-medium ${role === 'couple' ? 'text-ink' : 'text-ink-soft'}`}>
-                    Customer
-                  </span>
-                  <span className="block text-xs text-brand-grey mt-1">Planning your big day</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRole('photographer')}
-                  className={`p-4 rounded-xl border-2 transition-all ${role === 'photographer'
-                    ? 'border-sindoor bg-sindoor/5'
-                    : 'border-ink/10 hover:border-ink/30'
-                    }`}
-                >
-                  <Camera size={24} className={`mx-auto mb-2 ${role === 'photographer' ? 'text-sindoor' : 'text-brand-grey'}`} />
-                  <span className={`font-medium ${role === 'photographer' ? 'text-ink' : 'text-ink-soft'}`}>
-                    Photographer
-                  </span>
-                  <span className="block text-xs text-brand-grey mt-1">Capture precious moments</span>
-                </button>
-              </div>
+          {/* Role Selector */}
+          <div className="mb-8">
+            <label className="block text-sm font-medium text-ink-soft mb-3">
+              {isLogin ? 'Sign in as a...' : 'I am a...'}
+            </label>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                type="button"
+                onClick={() => setRole('couple')}
+                className={`p-4 rounded-xl border-2 transition-all ${role === 'couple'
+                  ? 'border-sindoor bg-sindoor/5'
+                  : 'border-ink/10 hover:border-ink/30'
+                  }`}
+              >
+                <Sparkles size={24} className={`mx-auto mb-2 ${role === 'couple' ? 'text-sindoor' : 'text-brand-grey'}`} />
+                <span className={`font-medium text-sm ${role === 'couple' ? 'text-ink' : 'text-ink-soft'}`}>
+                  Customer
+                </span>
+                <span className="block text-xs text-brand-grey mt-1">Planning your big day</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setRole('photographer')}
+                className={`p-4 rounded-xl border-2 transition-all ${role === 'photographer'
+                  ? 'border-sindoor bg-sindoor/5'
+                  : 'border-ink/10 hover:border-ink/30'
+                  }`}
+              >
+                <Camera size={24} className={`mx-auto mb-2 ${role === 'photographer' ? 'text-sindoor' : 'text-brand-grey'}`} />
+                <span className={`font-medium text-sm ${role === 'photographer' ? 'text-ink' : 'text-ink-soft'}`}>
+                  Photographer
+                </span>
+                <span className="block text-xs text-brand-grey mt-1">Capture moments</span>
+              </button>
             </div>
-          )}
+          </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -143,14 +166,21 @@ export default function AuthPage() {
               <div className="relative">
                 <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-grey" />
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 rounded-xl border border-ink/10 bg-brand-white focus:border-sindoor focus:ring-2 focus:ring-sindoor/20 outline-none transition-all"
+                  className="w-full pl-12 pr-12 py-3 rounded-xl border border-ink/10 bg-brand-white focus:border-sindoor focus:ring-2 focus:ring-sindoor/20 outline-none transition-all"
                   placeholder="Enter your password"
                   required
                   minLength={6}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-brand-grey hover:text-ink transition-colors"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
             </div>
 
