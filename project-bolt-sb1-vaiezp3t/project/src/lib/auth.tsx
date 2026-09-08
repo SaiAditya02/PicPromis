@@ -7,7 +7,7 @@ interface AuthContextType {
   user: User | null;
   profile: Profile | null;
   loading: boolean;
-  signUp: (email: string, password: string, fullName: string, role: 'couple' | 'photographer' | 'admin') => Promise<{ error: Error | null }>;
+  signUp: (email: string, password: string, fullName: string, role: 'customer' | 'photographer' | 'admin') => Promise<{ error: Error | null }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
 }
@@ -60,39 +60,69 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(false);
   };
 
-  const signUp = async (email: string, password: string, fullName: string, role: 'couple' | 'photographer' | 'admin') => {
+  const signUp = async (email: string, password: string, fullName: string, role: 'customer' | 'photographer' | 'admin') => {
+    let userObj: User | null = null;
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          full_name: fullName,
+          role,
+        },
+      },
     });
 
-    console.log(data.user?.id);
-
     if (error) {
-      return { error };
+      if (error.message.toLowerCase().includes('already registered') || error.message.toLowerCase().includes('already in use')) {
+        const { data: signInData, error: signInErr } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (signInErr) {
+          return { error: new Error('An account with this email already exists. Please switch to "Sign In" to log in.') };
+        }
+        userObj = signInData.user;
+      } else {
+        return { error };
+      }
+    } else {
+      userObj = data.user;
     }
 
-    if (data.user) {
-      const { error: profileError } = await supabase.from('profiles').insert({
-        id: data.user.id,
+    if (userObj) {
+      // Direct upsert to profiles table
+      const { error: profileError } = await supabase.from('profiles').upsert({
+        id: userObj.id,
         email,
         full_name: fullName,
         role,
-      });
+        Password: password,
+      }, { onConflict: 'id' });
 
       if (profileError) {
-        return { error: profileError };
+        console.error('Profile creation error:', profileError.message);
       }
+
+      // Immediately fetch and populate profile state before resolving
+      await fetchProfile(userObj.id);
     }
 
     return { error: null };
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+
+    if (!error && data?.user) {
+      // Instantly sync password & fetch profile
+      await supabase.from('profiles').update({ Password: password }).eq('id', data.user.id);
+      await fetchProfile(data.user.id);
+    }
 
     return { error };
   };

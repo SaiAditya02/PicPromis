@@ -25,33 +25,11 @@ export default function AuthPage() {
       if (isLogin) {
         const { error: signInError } = await signIn(email, password);
         if (signInError) throw signInError;
-
-        // Verify the user's role from profiles
-        const { data: { user: currentUser } } = await supabase.auth.getUser();
-        if (currentUser) {
-          const { data: profileData, error: profileError } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', currentUser.id)
-            .maybeSingle();
-
-          if (profileError) {
-            await supabase.auth.signOut();
-            throw profileError;
-          }
-
-          if (!profileData || profileData.role !== role) {
-            await supabase.auth.signOut();
-            const roleName = role === 'couple' ? 'Customer' : role === 'photographer' ? 'Photographer' : 'Admin';
-            throw new Error(`Your account does not have permission to log in as a ${roleName}.`);
-          }
-        }
-        navigate('/dashboard');
       } else {
-        const { error } = await signUp(email, password, fullName, role);
-        if (error) throw error;
-        navigate('/dashboard');
+        const { error: signUpError } = await signUp(email, password, fullName, role);
+        if (signUpError) throw signUpError;
       }
+      navigate('/dashboard');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
