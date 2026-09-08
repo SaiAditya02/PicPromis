@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
 import { supabase, Booking, Photographer, Package } from '../lib/supabase';
-import { Calendar, DollarSign, Star, Clock, Users, Camera, Settings, FileText, TrendingUp, ArrowRight, Check, X, Eye } from 'lucide-react';
+import { Calendar, DollarSign, Clock, Users, Camera, Settings, FileText, TrendingUp, ArrowRight, Check, X, Eye } from 'lucide-react';
 
 export default function PhotographerDashboard() {
-  const { profile, user, signOut } = useAuth();
+  const { profile, signOut } = useAuth();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
