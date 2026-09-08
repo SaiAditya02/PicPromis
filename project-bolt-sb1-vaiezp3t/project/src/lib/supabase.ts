@@ -15,7 +15,7 @@ export type Profile = {
   full_name: string | null;
   phone: string | null;
   avatar_url: string | null;
-  role: 'customer' | 'photographer' | 'admin';
+  role: 'customer' | 'couple' | 'photographer' | 'admin';
   city: string | null;
   password: string | null;
   Password?: string | null;
@@ -61,7 +61,8 @@ export type Package = {
 
 export type Booking = {
   id: string;
-  couple_id: string;
+  customer_id?: string;
+  couple_id?: string;
   photographer_id: string;
   wedding_date: string;
   status: 'pending' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled';
@@ -73,13 +74,15 @@ export type Booking = {
   created_at: string;
   updated_at: string;
   photographer?: Photographer & { profile: Profile };
+  customer?: Profile;
   couple?: Profile;
 };
 
 export type Review = {
   id: string;
   booking_id: string;
-  couple_id: string;
+  customer_id?: string;
+  couple_id?: string;
   photographer_id: string;
   rating: number;
   quality_rating: number | null;

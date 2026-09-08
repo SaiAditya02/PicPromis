@@ -5,11 +5,11 @@ import { AuthProvider, useAuth } from './lib/auth';
 import { supabase } from './lib/supabase';
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
-import CoupleDashboard from './pages/CoupleDashboard';
+import CustomerDashboard from './pages/CustomerDashboard';
 import PhotographerDashboard from './pages/PhotographerDashboard';
 import PhotographerSetup from './pages/PhotographerSetup';
 
-function PrivateRoute({ children, requiredRole }: { children: React.ReactNode; requiredRole?: 'couple' | 'photographer' | 'admin' }) {
+function PrivateRoute({ children, requiredRole }: { children: React.ReactNode; requiredRole?: 'customer' | 'photographer' | 'admin' }) {
   const { user, profile, loading } = useAuth();
 
   if (loading) {
@@ -42,7 +42,7 @@ function DashboardRouter() {
     return <Navigate to="/admin" replace />;
   }
 
-  return <CoupleDashboard />;
+  return <CustomerDashboard />;
 }
 
 function AdminLoginPage() {
@@ -249,10 +249,18 @@ export default function App() {
             }
           />
           <Route
+            path="/customer/dashboard"
+            element={
+              <PrivateRoute requiredRole="customer">
+                <CustomerDashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
             path="/couple/dashboard"
             element={
-              <PrivateRoute requiredRole="couple">
-                <CoupleDashboard />
+              <PrivateRoute>
+                <CustomerDashboard />
               </PrivateRoute>
             }
           />

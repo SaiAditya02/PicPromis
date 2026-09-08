@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
 import { supabase, Booking, Photographer, Package } from '../lib/supabase';
-import { Calendar, DollarSign, Clock, Heart, Camera, MessageCircle, FileText, Star, Check, ArrowRight, MapPin, Search, Filter, X } from 'lucide-react';
+import { Calendar, DollarSign, Clock, Heart, Camera, MessageCircle, Star, Check, ArrowRight, MapPin, Search, Filter, X } from 'lucide-react';
 
-export default function CoupleDashboard() {
+export default function CustomerDashboard() {
   const { profile, signOut } = useAuth();
   const navigate = useNavigate();
 
@@ -47,7 +47,7 @@ export default function CoupleDashboard() {
           profile:profiles!photographers_profile_id_fkey(*)
         )
       `)
-      .eq('couple_id', profile.id)
+      .or(`couple_id.eq.${profile.id},customer_id.eq.${profile.id}`)
       .order('created_at', { ascending: false });
 
     if (bookingsData) {
@@ -92,6 +92,7 @@ export default function CoupleDashboard() {
       .from('bookings')
       .insert({
         couple_id: profile.id,
+        customer_id: profile.id,
         photographer_id: selectedPhotographer.id,
         wedding_date: bookingData.wedding_date,
         total_amount: selectedPackage.price,

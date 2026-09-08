@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
-import { ArrowRight, Mail, Lock, User, Camera, Heart, Sparkles, Shield, Eye, EyeOff } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { ArrowRight, Mail, Lock, User, Camera, Sparkles, Eye, EyeOff } from 'lucide-react';
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
-  const [role, setRole] = useState<'couple' | 'photographer' | 'admin'>('couple');
+  const [role, setRole] = useState<'customer' | 'photographer' | 'admin'>('customer');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
@@ -76,14 +75,14 @@ export default function AuthPage() {
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
-                onClick={() => setRole('couple')}
-                className={`p-4 rounded-xl border-2 transition-all ${role === 'couple'
+                onClick={() => setRole('customer')}
+                className={`p-4 rounded-xl border-2 transition-all ${role === 'customer'
                   ? 'border-sindoor bg-sindoor/5'
                   : 'border-ink/10 hover:border-ink/30'
                   }`}
               >
-                <Sparkles size={24} className={`mx-auto mb-2 ${role === 'couple' ? 'text-sindoor' : 'text-brand-grey'}`} />
-                <span className={`font-medium text-sm ${role === 'couple' ? 'text-ink' : 'text-ink-soft'}`}>
+                <Sparkles size={24} className={`mx-auto mb-2 ${role === 'customer' ? 'text-sindoor' : 'text-brand-grey'}`} />
+                <span className={`font-medium text-sm ${role === 'customer' ? 'text-ink' : 'text-ink-soft'}`}>
                   Customer
                 </span>
                 <span className="block text-xs text-brand-grey mt-1">Planning your big day</span>

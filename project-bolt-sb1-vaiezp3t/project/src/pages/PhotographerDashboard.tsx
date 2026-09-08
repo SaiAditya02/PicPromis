@@ -226,7 +226,7 @@ export default function PhotographerDashboard() {
                 {bookings.slice(0, 5).map((booking) => (
                   <div key={booking.id} className="p-4 flex items-center justify-between hover:bg-ink/5 transition-colors">
                     <div>
-                      <p className="font-medium text-ink">{booking.couple?.full_name || 'Unknown Couple'}</p>
+                      <p className="font-medium text-ink">{booking.customer?.full_name || booking.couple?.full_name || 'Unknown Customer'}</p>
                       <p className="text-sm text-brand-grey">
                         {new Date(booking.wedding_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </p>
@@ -258,8 +258,8 @@ export default function PhotographerDashboard() {
               <div key={booking.id} className="bg-brand-white rounded-xl border border-ink/10 p-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <h3 className="font-medium text-ink">{booking.couple?.full_name || 'Unknown Couple'}</h3>
-                    <p className="text-sm text-brand-grey">{booking.couple?.email}</p>
+                    <h3 className="font-medium text-ink">{booking.customer?.full_name || booking.couple?.full_name || 'Unknown Customer'}</h3>
+                    <p className="text-sm text-brand-grey">{booking.customer?.email || booking.couple?.email}</p>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="text-right">
@@ -368,7 +368,7 @@ export default function PhotographerDashboard() {
                 <div className="col-span-full bg-brand-white rounded-xl border border-ink/10 p-12 text-center">
                   <FileText size={48} className="mx-auto text-brand-grey mb-4" />
                   <h3 className="font-display text-xl text-ink mb-2">No Packages Created</h3>
-                  <p className="text-brand-grey">Create packages to show couples what you offer.</p>
+                  <p className="text-brand-grey">Create packages to show customers what you offer.</p>
                 </div>
               )}
             </div>
@@ -379,7 +379,7 @@ export default function PhotographerDashboard() {
           <div className="bg-brand-white rounded-xl border border-ink/10 p-12 text-center">
             <Users size={48} className="mx-auto text-brand-grey mb-4" />
             <h3 className="font-display text-xl text-ink mb-2">Messages</h3>
-            <p className="text-brand-grey">Your conversations with couples will appear here.</p>
+            <p className="text-brand-grey">Your conversations with customers will appear here.</p>
           </div>
         )}
       </main>

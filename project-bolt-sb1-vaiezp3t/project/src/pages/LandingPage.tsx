@@ -429,9 +429,9 @@ function AIMatchingModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
 
 // Hero Section
 function HeroSection({ onOpenModal }: { onOpenModal: () => void }) {
-  const stats = [
+  const stats: { value: number; suffix: string; label: string; isDecimal?: boolean }[] = [
     { value: 100, suffix: '+', label: 'Verified photographers' },
-    { value: 500, suffix: '+', label: 'Couples matched' },
+    { value: 500, suffix: '+', label: 'Customers matched' },
     { value: 95, suffix: '%+', label: 'Escrow success rate' },
     { value: 4, suffix: '/5', label: 'Satisfaction score' },
   ];
@@ -540,10 +540,10 @@ function HeroSection({ onOpenModal }: { onOpenModal: () => void }) {
 
 // Problem Section with Tabs
 function ProblemSection() {
-  const [activeTab, setActiveTab] = useState<'couple' | 'photographer'>('couple');
+  const [activeTab, setActiveTab] = useState<'customer' | 'photographer'>('customer');
   const { ref, isVisible } = useScrollReveal();
 
-  const coupleProblems = [
+  const customerProblems = [
     'No transparency into a photographer\'s real track record — reviews are easily gamed, portfolios curated or borrowed.',
     'Fake or misleading portfolios, with no verification of authorship or actual delivery.',
     'Pricing confusion — inconsistent packages make comparing vendors apples-to-apples nearly impossible.',
@@ -553,7 +553,7 @@ function ProblemSection() {
   const photographerProblems = [
     'High customer acquisition cost — heavy reliance on word-of-mouth or expensive ad spend.',
     'No structured tools for contracts, milestone payments, or delivery workflow — managed manually over chat.',
-    'Payment risk — couples delaying or disputing final payment after delivery, with no neutral escrow mechanism.',
+    'Payment risk — customers delaying or disputing final payment after delivery, with no neutral escrow mechanism.',
   ];
 
   return (
@@ -577,8 +577,8 @@ function ProblemSection() {
         {/* Toggle Tabs */}
         <div className={`flex gap-2 mb-8 transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           <button
-            onClick={() => setActiveTab('couple')}
-            className={`px-6 py-3 rounded-xl font-medium transition-all ${activeTab === 'couple'
+            onClick={() => setActiveTab('customer')}
+            className={`px-6 py-3 rounded-xl font-medium transition-all ${activeTab === 'customer'
               ? 'bg-sindoor/10 text-sindoor border-2 border-sindoor'
               : 'bg-ink/5 text-ink-soft border-2 border-transparent hover:bg-ink/10'
               }`}
@@ -604,13 +604,13 @@ function ProblemSection() {
           <div className="absolute top-4 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-parchment border border-ink/10" />
 
           <div className="p-8 lg:p-10">
-            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono font-semibold tracking-widest uppercase mb-6 ${activeTab === 'couple' ? 'bg-red-100 text-sindoor-deep' : 'bg-amber-100 text-amber-900'
+            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono font-semibold tracking-widest uppercase mb-6 ${activeTab === 'customer' ? 'bg-red-100 text-sindoor-deep' : 'bg-amber-100 text-amber-900'
               }`}>
-              {activeTab === 'couple' ? 'Customers' : 'The Photographer'}
+              {activeTab === 'customer' ? 'Customers' : 'The Photographer'}
             </div>
 
             <div className="space-y-4">
-              {(activeTab === 'couple' ? coupleProblems : photographerProblems).map((problem, index) => (
+              {(activeTab === 'customer' ? customerProblems : photographerProblems).map((problem, index) => (
                 <div
                   key={index}
                   className="flex gap-4 items-start animate-fade-in"
@@ -685,7 +685,7 @@ function FeaturesSection() {
 // Trust Scores Section
 function TrustScoresSection() {
   const { ref, isVisible } = useScrollReveal();
-  const scores = [
+  const scores: { score: number; title: string; desc: string; icon: any; isDecimal?: boolean }[] = [
     { score: 92, title: 'Portfolio Quality Score', desc: 'Authorship-verified work, judged on real delivered galleries — not a curated highlight reel.', icon: Camera },
     { score: 96, title: 'On-Time Delivery Score', desc: 'Tracked directly against the shared delivery workflow timeline, milestone by milestone.', icon: Clock },
     { score: 4, title: 'Customer Satisfaction Score', desc: 'Drawn from structured post-event surveys — closed, verified, and far harder to game.', icon: Star },

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
 import { supabase } from '../lib/supabase';
-import { ArrowRight, Camera, MapPin, DollarSign, FileText, ChevronRight, Check, Upload, X } from 'lucide-react';
+import { Camera, DollarSign, ChevronRight, Check } from 'lucide-react';
 
 const STYLES = ['Traditional', 'Cinematic', 'Candid', 'Editorial'];
 const CITIES = ['Hyderabad', 'Bengaluru', 'Chennai', 'Mumbai', 'Delhi', 'Kolkata'];

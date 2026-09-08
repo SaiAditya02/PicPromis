@@ -48,13 +48,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const fetchProfile = async (userId: string) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('profiles')
       .select('*')
       .eq('id', userId)
       .maybeSingle();
 
     if (data) {
+      if (data.role === ('couple' as any)) {
+        data.role = 'customer';
+        await supabase.from('profiles').update({ role: 'customer' }).eq('id', userId);
+      }
       setProfile(data);
     }
     setLoading(false);
