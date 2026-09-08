@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
 import { supabase, Booking, Photographer, Package } from '../lib/supabase';
 import { Calendar, DollarSign, Star, Clock, Users, Camera, Settings, FileText, TrendingUp, ArrowRight, Check, X, Eye } from 'lucide-react';
 
 export default function PhotographerDashboard() {
-  const { profile, user } = useAuth();
+  const { profile, user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
   const [photographer, setPhotographer] = useState<Photographer | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [packages, setPackages] = useState<Package[]>([]);
@@ -126,6 +132,12 @@ export default function PhotographerDashboard() {
               <Link to="/" className="text-sm text-parchment/70 hover:text-parchment transition-colors">
                 View Public Profile
               </Link>
+              <button
+                onClick={handleSignOut}
+                className="px-4 py-2 text-sm font-medium border border-parchment/30 rounded-lg hover:bg-parchment/10 transition-colors"
+              >
+                Sign Out
+              </button>
             </div>
           </div>
         </div>

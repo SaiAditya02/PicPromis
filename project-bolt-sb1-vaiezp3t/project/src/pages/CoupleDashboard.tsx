@@ -5,8 +5,13 @@ import { supabase, Booking, Photographer, Package } from '../lib/supabase';
 import { Calendar, DollarSign, Clock, Heart, Camera, MessageCircle, FileText, Star, Check, ArrowRight, MapPin, Search, Filter, X } from 'lucide-react';
 
 export default function CoupleDashboard() {
-  const { profile } = useAuth();
+  const { profile, signOut } = useAuth();
   const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [photographers, setPhotographers] = useState<(Photographer & { profiles: { full_name: string; avatar_url: string | null } })[]>([]);
   const [loading, setLoading] = useState(true);
@@ -146,6 +151,12 @@ export default function CoupleDashboard() {
             </div>
             <div className="flex items-center gap-4">
               <span className="text-sm text-parchment/70">Welcome, {profile?.full_name}</span>
+              <button
+                onClick={handleSignOut}
+                className="px-4 py-2 text-sm font-medium border border-parchment/30 rounded-lg hover:bg-parchment/10 transition-colors"
+              >
+                Sign Out
+              </button>
             </div>
           </div>
         </div>
